@@ -6,6 +6,7 @@
 	red=`tput setaf 1`;
 	green=`tput setaf 2`;
 	bg_pink=`tput setab 199`;
+	pink=`tput setaf 199`;
 	white=`tput setaf 15`;
 	reset=`tput sgr0`;
 	bold=`tput setaf bold`;
@@ -69,9 +70,9 @@ imprimir_encabezado () {
     echo -e "`date +"%d-%m-%Y %T" `\t\t\t\t\t USERNAME:$USER";
     echo "";
     #Se agregan colores a encabezado
-    echo -e "\t\t${bg_pink}${red}${bold}-------------------------------------\t${reset}";
-    echo -e "\t\t${bold}${bg_pink}${white}$1\t\t${reset}";
-    echo -e "\t\t${bg_pink}${red}${bold}-------------------------------------\t${reset}";
+    echo -e "\t\t${pink}-------------------------------------\t${reset}";
+    echo -e "\t\t${pink}$1\t\t${reset}";
+    echo -e "\t\t${pink}-------------------------------------\t${reset}";
     echo "";
 }
 
@@ -103,7 +104,7 @@ decidir () {
 # FUNCTIONES del MENU
 #------------------------------------------------------
 a_funcion () {
-    	imprimir_encabezado "\tOpción a. Ver estado del proyecto";
+    	imprimir_encabezado "Opción a. Ver estado del proyecto";
 	echo "---------------------------"        
 	echo "¿Algo para comitear?" #Somthing to commit?"
 	echo "Ver estado del proyecto"        
@@ -116,7 +117,7 @@ a_funcion () {
 }
 
 b_funcion () {
-       	imprimir_encabezado "\tOpción b. Guardar cambios";
+       	imprimir_encabezado "Opción b. Guardar cambios";
 	decidir "git add -A"
        	echo "Ingrese mensaje para el commit:";
        	read mensaje;
@@ -130,30 +131,30 @@ c_funcion () {
 }
 
 
-d_funcion () { #TODO
-	imprimir_encabezado "\tOpción d. Abrir en terminal";        
+d_funcion () {
+	imprimir_encabezado "Opción d. Abrir en terminal";        
 	decidir "cd $proyectoActual; xterm &";
 }
 
-e_funcion () { #TODO
-	imprimir_encabezado "\tOpción e. Abrir en carpeta";        
+e_funcion () {
+	imprimir_encabezado "Opción e. Abrir en carpeta";        
 	decidir "gnome-open $proyectoActual &";
 }
 
 f_funcion () {
-	imprimir_encabezado "\tOpción f. Obtener información de PCB";
+	imprimir_encabezado "Opción f. Obtener información de PCB";
 	echo "Ingrese proceso del que desee obtener informacion"
 	read proceso
 	decidir "cat /proc/\"$proceso\"/status | grep Name; cat /proc/\"$proceso\"/status | grep Pid | grep -v Tracer; cat /proc/\"$proceso\"/status | grep State; cat /proc/\"$proceso\"/status | grep voluntary_ctxt_switches"
 }
 
 g_funcion () {
-	imprimir_encabezado "\tOpción g. Fork";        
+	imprimir_encabezado "Opción g. Fork";        
 	decidir "./fork"; 
 }
 
 h_funcion (){
-	imprimir_encabezado "\tOpción h. Agregar seguridad al sistema contra la Bomba Fork";
+	imprimir_encabezado "Opción h. Agregar seguridad al sistema contra la Bomba Fork";
 	echo "${red}$1El valor actual es de:${reset}$1";
         ulimit -u;
 	echo"";
@@ -161,32 +162,32 @@ h_funcion (){
 }
 
 i_funcion () {
-	imprimir_encabezado "\tOpción i. Interprete de Comandos Shell";
+	imprimir_encabezado "Opción i. Interprete de Comandos Shell";
 	decidir "./interpreteComandosShell";
 }
 
 j_funcion () {
-	imprimir_encabezado "\tOpción j. Exclusion Mutua";
+	imprimir_encabezado "Opción j. Exclusion Mutua";
 	decidir "./exclusionMutua";
 }
 
 k_funcion () {
-	imprimir_encabezado "\tOpción k. Sincronizacion";
+	imprimir_encabezado "Opción k. Sincronizacion";
 	decidir "./sincronizacion";
 }
 
 l_funcion () {
-	imprimir_encabezado "\tOpción l. Paralelismo de Datos";
+	imprimir_encabezado "Opción l. Paralelismo de Datos";
 	decidir "./paralelismoDeDatos";
 }
 
 m_funcion () {
-	imprimir_encabezado "\tOpción m. Paralelismo de Tareas";
+	imprimir_encabezado "Opción m. Paralelismo de Tareas";
 	decidir "./paralelismoDeTareas";
 }
 
 n_funcion () {
-	imprimir_encabezado "\tOpción n. Paralelismo de Tareas (Secuencial)";
+	imprimir_encabezado "Opción n. Paralelismo de Tareas (Secuencial)";
 	decidir "./paralelismoDeTareas-Secuencial";
 }
 
