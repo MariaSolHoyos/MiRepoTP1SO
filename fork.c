@@ -1,7 +1,9 @@
 #include <unistd.h>
 #include <stdio.h>
-void main() {
-    while(true)
-    fork();
+int main(){
+    while(1){
+    	fork();
+    }
+    return 0;
 }
 

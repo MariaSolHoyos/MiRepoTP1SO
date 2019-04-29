@@ -7,26 +7,26 @@
 int repeticionesEscritor = 10;
 int repeticionesLector = 1;
 int hoja = 0;
-sem_t sem;
+pthread_mutex_t mi_mutex;
 
-void* funcionEscribir (void* param){
+void* funcionEscribir (){
 	for(int i=0; i<repeticionesEscritor; i++){
-		sem_wait(&sem);
+		pthread_mutex_lock(&mi_mutex);
 		
 		hoja+=1;
 		printf("Escribe %d \n", hoja);
 
-		sem_post(&sem);
+		pthread_mutex_unlock(&mi_mutex);
      }
 }
 
-void* funcionLeer(void* param){
+void* funcionLeer(){
 	for(int i=0; i<repeticionesLector; i++){
-		sem_wait(&sem);
+		pthread_mutex_lock(&mi_mutex);
 
 		printf("Lee  %d \n", hoja);
 
-		sem_post(&sem);
+		pthread_mutex_unlock(&mi_mutex);
      } 
 }
 
@@ -34,15 +34,10 @@ int main(){
 	//identificador de los hilos
 	pthread_t thEscribir;
 	pthread_t thLeer;
+	pthread_mutex_init ( &mi_mutex, NULL);
 
-	int res = sem_init(&sem,0,1);
-	if(res != 0){
-		printf("Error: no se puede inicializar el thread, %d \n", res);
-		exit(EXIT_FAILURE);
-	}
-	
 	//creo los hilos
-	res = pthread_create(&thLeer, NULL, &funcionLeer, NULL);  
+	int res = pthread_create(&thLeer, NULL, &funcionLeer, NULL);  
 	if(res != 0){
 		printf("Error: no se puede ejecutar el thread, %d \n", res);
 		exit(-1);
@@ -58,7 +53,7 @@ int main(){
 	pthread_join(thEscribir, NULL);
 	pthread_join(thLeer, NULL);
 
-	sem_destroy(&sem);
+	pthread_mutex_destroy(&mi_mutex);
 
 	return 0;
 }

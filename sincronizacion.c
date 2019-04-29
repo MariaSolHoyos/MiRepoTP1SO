@@ -28,8 +28,6 @@ void ejecutarCiclo (sem_t* sem1, sem_t* sem2, char* evento){
 void ejecutarUnicaVez (sem_t* sem1, char* evento){
 		sem_wait(sem1);
 		printf("%s", evento);
-		//fflush(stdout);
-		//usleep(ESPERA);
 }
 
 void* funcionJugar(void* param){
@@ -56,16 +54,10 @@ void* funcionDescansar(void* param){
 void* funcionTerminar(void* param){
 	sem_wait(&terminar);
 	ejecutarUnicaVez(&jugar,"TERMINAR! \n");
-	pthread_exit(NULL);
+	exit(-1);
 }
 
 void* main(){
-	/*printf("Inicia el juego:\n");
-	printf("Seleccione el modo:\n");
-	printf("1. Modo normal.\n2. Modo jugar bien.\n > ");
-	char cmd[1];
-	scanf("\n%[^\n]",cmd);*/
-
 	pthread_t thJugar;
 	pthread_t thGanar;
 	pthread_t thPerder;
@@ -146,4 +138,5 @@ void* main(){
 	sem_destroy(&terminar);
 
 	pthread_exit(NULL);
+	printf("Error: no se puede ejecutar el thread Terminar");
 }

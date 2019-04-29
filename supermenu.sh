@@ -43,10 +43,14 @@ imprimir_menu () {
 	
     echo -e "";
     #EJERCICIO 2.2
-    echo -e "\t\t\t j. Exlusion Mutua";
+    echo -e "\t\t\t j. Exclusion Mutua";
     echo -e "\t\t\t k. Sincronizacion";
 
     echo "";
+    #EJERCICIO 2.3
+    echo -e "\t\t\t l. Paralelismo de Datos";
+    echo -e "\t\t\t m. Paralelismo de Tareas";
+    echo -e "\t\t\t n. Paralelismo de Tareas (Secuencial)";
 
 
     echo -e "\t\t\t q. Salir";
@@ -138,7 +142,6 @@ e_funcion () { #TODO
 
 f_funcion () {
 	imprimir_encabezado "\tOpción f. Obtener información de PCB";
-	decidir "htop"
 	echo "Ingrese proceso del que desee obtener informacion"
 	read proceso
 	decidir "cat /proc/\"$proceso\"/status | grep Name; cat /proc/\"$proceso\"/status | grep Pid | grep -v Tracer; cat /proc/\"$proceso\"/status | grep State; cat /proc/\"$proceso\"/status | grep voluntary_ctxt_switches"
@@ -146,7 +149,7 @@ f_funcion () {
 
 g_funcion () {
 	imprimir_encabezado "\tOpción g. Fork";        
-	decidir "gcc fork.c -o fork ; ./fork"; 
+	decidir "./fork"; 
 }
 
 h_funcion (){
@@ -154,7 +157,7 @@ h_funcion (){
 	echo "${red}$1El valor actual es de:${reset}$1";
         ulimit -u;
 	echo"";
-        decidir "ulimit -u 1500";
+        decidir "ulimit -u 5";
 }
 
 i_funcion () {
@@ -162,10 +165,29 @@ i_funcion () {
 	decidir "./interpreteComandosShell";
 }
 
-
 j_funcion () {
-	imprimir_encabezado "\tOpción j. Exlusion Mutua";
-	decidir "./exlusionMutua";
+	imprimir_encabezado "\tOpción j. Exclusion Mutua";
+	decidir "./exclusionMutua";
+}
+
+k_funcion () {
+	imprimir_encabezado "\tOpción k. Sincronizacion";
+	decidir "./sincronizacion";
+}
+
+l_funcion () {
+	imprimir_encabezado "\tOpción l. Paralelismo de Datos";
+	decidir "./paralelismoDeDatos";
+}
+
+m_funcion () {
+	imprimir_encabezado "\tOpción m. Paralelismo de Tareas";
+	decidir "./paralelismoDeTareas";
+}
+
+n_funcion () {
+	imprimir_encabezado "\tOpción n. Paralelismo de Tareas (Secuencial)";
+	decidir "./paralelismoDeTareas-Secuencial";
 }
 
 #------------------------------------------------------
@@ -189,6 +211,10 @@ do
 	h|H) h_funcion;;
 	i|I) i_funcion;;
 	j|J) j_funcion;;
+	k|K) k_funcion;;
+	l|L) l_funcion;;
+	m|M) m_funcion;;
+	n|N) n_funcion;;
         q|Q) break;;
         *) malaEleccion;;
     esac

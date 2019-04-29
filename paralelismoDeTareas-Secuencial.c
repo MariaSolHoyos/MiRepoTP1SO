@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h> 
+#include <time.h>
 
 int digitosDePi[10000]; 
 /*PROMEDIO*/
@@ -14,6 +15,7 @@ int elMasRepetido;
 /*SUMA DE PRIMOS*/
 int cantPrimos=0;
 int sumaPrimos=0;
+
 
 void* calcularPromedio (){// CALCULAR PROMEDIO
 	for(int i=0; i<10000; i++){
@@ -63,10 +65,10 @@ void* calcularAparicion (){//CALCULAR APARICION DE CADA DIGITO Y CUAL APARECE M�
 			elMasRepetido=i;
 		}
 	}
-
 }
 
 void* obtenerPrimos (){//CALCULAR CANTIDAD DE PRIMOS Y LA SUMA DE ELLOS
+
 	for(int i=0; i<10000; i++){
 		int cont=0;
 		for(int j=1; j<=digitosDePi[i]; j++){
@@ -94,26 +96,13 @@ int main(){
 	for (int i=0; i<10000; i++){
 		fscanf(myFile, "%d,", &digitosDePi[i] );
 	}
-
-	//UN THREAD POR CADA FUNCION
-	pthread_t primerHilo;
-	pthread_t segundoHilo;
-	pthread_t tercerHilo;	
-
-	pthread_create(&primerHilo, NULL, calcularPromedio, NULL);
-	pthread_create(&segundoHilo, NULL, calcularAparicion, NULL);
-	pthread_create(&tercerHilo, NULL, obtenerPrimos, NULL);
-
-	pthread_join(primerHilo, NULL);
-	pthread_join(segundoHilo, NULL);
-	pthread_join(tercerHilo, NULL);
-
-	/*IMPRIME RESULTADO PRIMER THREAD*/	
+	
+	calcularPromedio();obtenerPrimos();	
 	printf("\nEl promedio de de entre los primeros 10000 digitos de Pi es: ");
 	printf("%i", promedio);
 	printf("\n");
 	
-	/*IMPRIME RESULTADO SEGUNDO THREAD*/
+	calcularAparicion();
 	for(int i=0; i<10; i++){
 		printf("\nCantidad de veces que aparece el número %i", i);
 		printf(": %i", apariciones[i]);
@@ -122,12 +111,11 @@ int main(){
 	printf("El dìgito que aparece más veces es: %i", elMasRepetido);
 	printf("\n");
 	
-	/*IMPRIME RESULTADO TERCER THREAD*/
+	obtenerPrimos();
 	printf("\nCantidad de números primos que ocurren: %i", cantPrimos);
 	printf("\nLa suma de ellos es: %i", sumaPrimos);
 	printf("\n");
 
-	pthread_exit(NULL);
 	fclose(myFile);
 	return 0;
 }
